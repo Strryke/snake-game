@@ -5,7 +5,7 @@ class Food(Turtle):
         super().__init__()
         self.shape("square")
         self.up()
-        self.color("red")
+        self.color("green")
         self.setposition(location)
         
     def new_food(self, location):
