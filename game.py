@@ -7,6 +7,7 @@ from food import Food, words
 from screen import Window
 
 vocab = words
+images_files={"APPLE":"apple.gif","BANANA":'banana.gif', "CHERRY":'cherry.gif'}
 wordsindex = 0
 charindex = 0
 style = ("Verdana", 30)
@@ -29,6 +30,13 @@ def word_list(word):
     idk.color("yellow")
     idk.hideturtle()
     idk.write(word, align="left", font=style)
+
+def show_image(word):
+    image=Turtle()
+    image.up()
+    image.setpos(-500,200)
+    window.screen.addshape(images_files[word])
+    image.shape(images_files[word])
 
 
 # Returns a location away from the Snake
@@ -95,7 +103,7 @@ while True:
     window.screen.onkey(start, "Return")
     window.screen.listen()
     if start == True:
-        window.reset()
+        window.reset_screen()
         window.bottom_text()
         break
 
@@ -103,6 +111,7 @@ while True:
 # game start
 snake = Snake()
 word = vocab[0]
+show_image(word)
 spelling = top_spelling(word, 0)
 food = Food(generate_rand(), word[0])
 key_binds()
@@ -126,6 +135,7 @@ while True:
                 word = vocab[wordsindex]
                 charindex = 0
                 food.new_food(generate_rand(), word[charindex])
+                show_image(word)
             else:
                 charindex += 1
                 food.new_food(generate_rand(), word[charindex])  # generate next food

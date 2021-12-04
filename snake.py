@@ -10,6 +10,7 @@ class Snake:
         self.segments = []
         self.start_snake()
         self.head = self.segments[0]
+        self.head.color("orange")
 
     def new_segment(self, position):
         new = turtle.Turtle("square")
