@@ -1,16 +1,30 @@
 from turtle import Turtle
-style = ('Courier', 30, 'italic')
+import random
+
+style = ("Verdana", 30)
+
+words = ["APPLE", "BANANA", "CHERRY"]
+
+colors = ["#C70039", "#FFC300", "#8E44AD", "#A3E4D7", "#FF00FF", "#99FF33"]
+
+
+def random_color():
+    return random.choice(colors)
+
 
 class Food(Turtle):
-    def __init__(self, location,ch):
+    def __init__(self, location, ch):
         super().__init__()
-        self.setposition(location)
-        self.color("green")
-        self.write(ch,align='center', font = style)
         self.up()
-        self.hideturtle()
-        
-    def new_food(self, location,ch):
+        self.setposition((location[0] - 5, location[1] - 20))
+        self.color(random_color())
+        self.write(ch, align="center", font=style)
         self.setposition(location)
+        self.hideturtle()
+
+    def new_food(self, location, ch):
         self.clear()
-        self.write(ch, align='center', font = style)
+        self.color(random_color())
+        self.setposition((location[0] - 5, location[1] - 20))
+        self.write(ch, align="center", font=style)
+        self.setposition(location)
