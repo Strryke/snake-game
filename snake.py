@@ -1,30 +1,39 @@
-from turtle import Turtle, Screen
+import turtle 
 import time
 from random import randrange
 
 START = [(0,0), (-20,0), (-40,0)]
 
 # Snake setup
-class Snake(object):
+class Snake:
     
     def __init__(self):
         self.segments = []
         self.start_snake()
         self.head = self.segments[0]
+        self.head.color("orange")
     
+    def new_segment(self,position):
+        new = turtle.Turtle("square")
+        new.up()
+        new.color("white")
+        new.goto(position)
+        self.segments.append(new)
+
     # Initialisation of snake (3 squares)
     def start_snake(self):
         for position in START:
-            new = Turtle("square")
-            new.up()
-            new.color("white")
-            new.goto(position)
-            self.segments.append(new)
+            self.new_segment(position)
          
-    def self_collide(self):
+    def collide(self):
+        #self collide
         for segment in self.segments[1:]:
             if self.head.distance(segment.pos()) < 10:
                 return True
+
+        #wall collision (chewon)
+        if self.head.ycor() <= -365 or self.head.ycor() >= 370 or self.head.xcor() <= -500 or self.head.xcor() >= 500: 
+            return True
     
     # Movement of snake. Last part will go to 2nd last part, 
     # 2nd last part goes to 3rd last
@@ -37,25 +46,25 @@ class Snake(object):
     # Adds a new square to the position of the last segment
     def eat(self):
         position = self.segments[-1].pos()
-        new = Turtle("square")
-        new.up()
-        new.color("white")
-        new.goto(position)
-        self.segments.append(new)
+        self.new_segment(position)
+
      
     # Key bindings    
     def up(self): 
-        if (self.head.heading() != 270): self.head.setheading(90)
+        if (self.head.heading() != 270):
+             self.head.setheading(90)
+             
     def down(self):
-        if (self.head.heading() != 90): self.head.setheading(270)
+        if (self.head.heading() != 90): 
+            self.head.setheading(270)
+
     def left(self):
-        if (self.head.heading() != 0): self.head.setheading(180)
+        if (self.head.heading() != 0): 
+            self.head.setheading(180)
+
     def right(self):
-        if (self.head.heading() != 180): self.head.setheading(0)
-        
-            
-    
-        
+        if (self.head.heading() != 180): 
+            self.head.setheading(0)
 
 
 

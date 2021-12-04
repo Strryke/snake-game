@@ -1,22 +1,61 @@
-from turtle import Turtle, Screen
+from turtle import Turtle, Screen, screensize
 import time
 from random import randrange
 from snake import Snake
 from food import Food
 
-score = 0
 
-# Screen setup
+vocab = ["Apple", "Banana", "Cherry"]
+wordsindex = 0
+charindex = 0
+style = ("Courier", 30, "italic")
+playing = True
+
 screen = Screen()
 screen.title("Snake Game")
 screen.bgcolor("black")
 screen.tracer(0)
+screen.setup(height=1.0, width=1.0)
+
+# bottom pause text
 text = Turtle()
-text.setpos(-300,-200)
+text.setpos(0, -500)
 text.hideturtle()
 text.color("white")
-style = ('Courier', 30, 'italic')
-text.write(f"Score {score}", font = style)
+text.write("Press space to pause", align="center", font=style)
+
+
+def top_spelling(word, charindex):
+    spelling = Turtle()
+    spelling.setpos(0, 400)
+    spelling.color("white")
+    spelling.hideturtle()
+    spelling.write(word[0:charindex], align="center", font=style)
+    return spelling
+
+
+def word_list(word):
+    idk = Turtle()
+    idk.setpos(-700, -(wordsindex * 40))
+    idk.color("yellow")
+    idk.hideturtle()
+    idk.write(word, align="left", font=style)
+
+
+# wall creation (chewon)
+def edge_drawing():
+    edge = Turtle("square")
+    edge.setpos(-500, -385)
+    edge.pensize(10)
+    edge.shapesize(0.3)
+    edge.color("green")
+
+    for i in range(2):
+        edge.forward(1000)
+        edge.left(90)
+        edge.forward(780)
+        edge.left(90)
+
 
 # Returns a location away from the Snake
 # Used to make food
@@ -27,41 +66,74 @@ def generate_rand():
     return generate_rand()
 
 
-# init snake
-snake = Snake()
-food = Food(generate_rand())
+# Check collision with food
+def eat_food(head, food):
+    foody = abs(head.ycor() - (food.ycor() + 20))
+    foodx = abs(head.xcor() - food.xcor())
 
-# Check collision with food 
-def eat_food(head,food):
-    global score
-    if head.distance(food.pos()) < 20:
-        score += 1
-        text.clear()
-        text.write(f"Score {score}", font = style)
+    if foody < 20 and foody > 0 and foodx > 0 and foodx < 20:
         return True
 
-# Key bindings to "talk" to the screen 
+
+# todo
+def endgame():
+    # clear turtles
+    # display words completed
+    # press space to restart
+    pass
+
+
+def switch_playstate():
+    global playing
+    playing = not playing
+
+
+# shld have a start screen here? "press space to start"
+
+# game start
+snake = Snake()
+word = vocab[0]
+spelling = top_spelling(word, 0)
+food = Food(generate_rand(), word[0])  # create first food
+edge_drawing()
+
+# Key bindings to "talk" to the screen
 screen.onkey(snake.up, "Up")
 screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
-screen.listen()
-
-# Todo
-def endgame():
-    global playing
-    playing = False
+screen.onkey(switch_playstate, "space")
 
 # Game loop
-playing = True
 while playing:
+    screen.listen()
     screen.update()
     snake.move()
-    if snake.self_collide():
+
+    if snake.collide():
+        switch_playstate()
         endgame()
+
     elif eat_food(snake.head, food):
-        snake.eat()
-        food.new_food(generate_rand())
+        snake.eat()  # creates new segments
+
+        if charindex == len(word) - 1:
+            word_list(word)
+            wordsindex += 1
+            word = vocab[wordsindex]
+            charindex = 0
+            food.new_food(generate_rand(), word[charindex])
+        else:
+            charindex += 1
+            food.new_food(generate_rand(), word[charindex])  # generate next food
+
+        spelling.clear()
+        spelling = top_spelling(word, charindex)  # see current word spelling at the top
+
     time.sleep(0.1)
+
+while not playing:  # when game is paused (todo)
+    screen.listen()
+    screen.update()
 
 screen.exitonclick()
