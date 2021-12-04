@@ -16,15 +16,6 @@ class Window:
         self.screen.tracer(0)
         self.screen.setup(height=1.0, width=1.0)
 
-    def start_screen(self):
-        text = Turtle()
-        text.hideturtle()
-        text.up()
-        text.setpos(0, 0)
-        text.color("white")
-        text.write("")
-        turtle.bgpic("welcome.gif")
-
     # wall creation (chewon)
     def edge_drawing(self):
         edge = Turtle("square")
@@ -37,7 +28,16 @@ class Window:
             edge.forward(700)
             edge.left(90)
 
-    def reset(self):
+    def start_screen(self):
+        text = Turtle()
+        text.hideturtle()
+        text.up()
+        text.setpos(0, 0)
+        text.color("white")
+        text.write("")
+        turtle.bgpic("welcome.gif")
+
+    def reset_screen(self):
         turtle.clearscreen()
         self.setup()
         self.edge_drawing()
