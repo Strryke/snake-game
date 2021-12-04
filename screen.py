@@ -14,7 +14,7 @@ class Window:
         self.screen.title("Snake Game")
         self.screen.bgcolor("black")
         self.screen.tracer(0)
-        self.screen.setup(height=1000, width=1200)
+        self.screen.setup(height=1.0, width=1.0)
 
     def start_screen(self):
         text = Turtle()
