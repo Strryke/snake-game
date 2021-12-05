@@ -34,8 +34,8 @@ class Snake:
         if (
             self.head.ycor() <= -330
             or self.head.ycor() >= 330
-            or self.head.xcor() <= -330
-            or self.head.xcor() >= 330
+            or self.head.xcor() <= -340
+            or self.head.xcor() >= 340
         ):
             return True
 

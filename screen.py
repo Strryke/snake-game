@@ -15,11 +15,14 @@ class Window:
         self.screen.bgcolor("black")
         self.screen.tracer(0)
         self.screen.setup(height=1.0, width=1.0)
+        self.screen.screensize(1000, 1200)
 
     # wall creation (chewon)
     def edge_drawing(self):
         edge = Turtle("square")
+        edge.up()
         edge.setpos(-350, -350)
+        edge.down()
         edge.pensize(10)
         edge.shapesize(0.3)
         edge.color("green")
@@ -39,7 +42,27 @@ class Window:
 
     def reset_screen(self):
         turtle.clearscreen()
-        self.setup()
+        self.__init__()
+
+    def word_list(self, ls):
+        text = Turtle()
+        text.up()
+        text.color("white")
+        text.setpos(500, 200)
+        text.write(
+            "Completed Words:", align="center", font=("Verdana", 25, "underline")
+        )
+        text.hideturtle()
+
+        for i in range(len(ls)):
+            completedword = Turtle()
+            completedword.up()
+            completedword.color("white")
+            completedword.setpos(450, 170 - (i * 20))
+            completedword.hideturtle()
+            completedword.write(
+                f"{i+1}. {ls[i].capitalize()}", align="left", font=("Verdana", 20)
+            )
 
     def bottom_text(self):
         # bottom pause text
@@ -49,3 +72,13 @@ class Window:
         text.hideturtle()
         text.color("white")
         text.write("Press 'SPACE' to pause", align="center", font=style)
+
+    def show_image(self, image):
+        self.image = Turtle()
+        self.image.up()
+        self.image.setpos(-500, 200)
+        self.screen.addshape(image)
+        self.image.shape(image)
+
+    def del_image(self):
+        self.image.hideturtle()
