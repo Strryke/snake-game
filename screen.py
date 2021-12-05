@@ -43,6 +43,9 @@ class Window:
     def reset_screen(self):
         turtle.clearscreen()
         self.__init__()
+        self.word_list([])
+        self.bottom_text()
+        self.screen.update()
 
     def word_list(self, ls):
         text = Turtle()
