@@ -7,7 +7,8 @@ from food import Food, words
 from screen import Window
 
 vocab = words
-images_files={"APPLE":"apple.gif","BANANA":'banana.gif', "CHERRY":'cherry.gif'}
+images_files={"TORTOISE":"tortoise.gif","HARE":'hare.gif',"RACE":'race.gif',"FINAL":'final.gif'}
+completedls=[]
 wordsindex = 0
 charindex = 0
 style = ("Verdana", 30)
@@ -24,12 +25,13 @@ def top_spelling(word, charindex):
     return spelling
 
 
-def word_list(word):
-    idk = Turtle()
-    idk.setpos(-450, -(wordsindex * 40))
-    idk.color("yellow")
-    idk.hideturtle()
-    idk.write(word, align="left", font=style)
+def word_list(x,ls):
+    for i in range(len(ls)):
+        completedword = Turtle()
+        completedword.setpos(x, -(i * 40))
+        completedword.color("yellow")
+        completedword.hideturtle()
+        completedword.write(ls[i], align="left", font=style)
 
 def show_image(word):
     image=Turtle()
@@ -54,20 +56,29 @@ def eat_food(head, food):
         return True
 
 
-def endgame():
+def endgame(completedls,msg):
+    window.reset_screen()
+    word_list(0,completedls)
+
+    show_image("FINAL") #not working :(
+
     text = Turtle()
-    text.setpos(0, 0)
+    text.setpos(0, 200)
     text.hideturtle()
     text.color("white")
-    text.write("GAME OVER\nPress 'R' to restart!", align="center", font=style)
+    text.write(f"{msg}\nClick anywhere to exit", align="center", font=style)
     switch_playstate()
+    #window.screen.onkey(restart, "r")
+    #window.screen.listen()
+
+    window.screen.exitonclick()
 
 
 def switch_playstate():
     global playing
     playing = not playing
 
-
+'''
 def restart():
     global playing, food, charindex
     window.reset()
@@ -77,7 +88,7 @@ def restart():
     key_binds()
     food = Food(generate_rand(), word[0])
     window.bottom_text()
-
+'''
 
 def key_binds():
     window.screen.onkey(snake.up, "Up")
@@ -85,7 +96,7 @@ def key_binds():
     window.screen.onkey(snake.left, "Left")
     window.screen.onkey(snake.right, "Right")
     window.screen.onkey(switch_playstate, "space")
-    window.screen.onkey(restart, "r")
+    #window.screen.onkey(restart, "r")
 
 
 window = Window()
@@ -97,23 +108,26 @@ while True:
         global start
         start = True
 
-    # turtle.bgpic("welcome.gif")
-
     window.start_screen()
     window.screen.onkey(start, "Return")
     window.screen.listen()
+
     if start == True:
         window.reset_screen()
-        window.bottom_text()
         break
 
 
 # game start
 snake = Snake()
+window.edge_drawing()
+window.bottom_text()
+
 word = vocab[0]
 show_image(word)
 spelling = top_spelling(word, 0)
+
 food = Food(generate_rand(), word[0])
+
 key_binds()
 
 
@@ -124,18 +138,23 @@ while True:
         snake.move()
 
         if snake.collide():
-            endgame()
+            endgame(completedls,"GAME OVER")
 
         elif eat_food(snake.head, food):
             snake.eat()  # creates new segments
-
+        
             if charindex == len(word) - 1:
-                word_list(word)
-                wordsindex += 1
-                word = vocab[wordsindex]
-                charindex = 0
-                food.new_food(generate_rand(), word[charindex])
-                show_image(word)
+                completedls.append(word)
+                if len(completedls)==len(vocab):
+                    endgame(completedls,"CONGRATULATIONS! YOU WIN!")
+                else:
+                    word_list(-400,completedls)
+                    wordsindex += 1
+                    word = vocab[wordsindex]
+                    charindex = 0
+                    food.new_food(generate_rand(), word[charindex])
+                    show_image(word)
+
             else:
                 charindex += 1
                 food.new_food(generate_rand(), word[charindex])  # generate next food
@@ -147,6 +166,3 @@ while True:
 
     window.screen.update()
     sleep(0.1)
-
-
-window.screen.exitonclick()

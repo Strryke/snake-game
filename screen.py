@@ -40,7 +40,6 @@ class Window:
     def reset_screen(self):
         turtle.clearscreen()
         self.setup()
-        self.edge_drawing()
 
     def bottom_text(self):
         # bottom pause text

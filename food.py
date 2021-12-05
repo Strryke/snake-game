@@ -3,7 +3,7 @@ import random
 
 style = ("Verdana", 30)
 
-words = ["APPLE", "BANANA", "CHERRY"]
+words = ["HARE", "TORTOISE", "RACE"]
 
 colors = ["#C70039", "#FFC300", "#8E44AD", "#A3E4D7", "#FF00FF", "#99FF33"]
 
