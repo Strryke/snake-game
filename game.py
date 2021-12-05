@@ -5,12 +5,13 @@ from snake import Snake
 from food import Food, words
 from screen import Window
 
+
 vocab = words
 images_files = {
-    "TORTOISE": "tortoise.gif",
-    "HARE": "hare.gif",
-    "RACE": "race.gif",
-    "FINAL": "final.gif",
+    "TORTOISE": "./tortoise.gif",
+    "HARE": "./hare.gif",
+    "RACE": "./race.gif",
+    "FINAL": "./final.gif",
 }
 completedls = []
 wordsindex = 0
@@ -62,16 +63,15 @@ def switch_playstate():
 
 
 def restart():
-    global playing, food, charindex
+    global playing, food, charindex, word
     window.reset_screen()
     snake.__init__()
     playing = True
-    charindex = 0
+    charindex, wordsindex = 0, 0
+    word = vocab[wordsindex]
     key_binds()
     food = Food(generate_rand(), word[0])
-    window.bottom_text()
     window.show_image(images_files[word])
-    window.update()
 
 
 def key_binds():
@@ -106,13 +106,10 @@ snake = Snake()
 window.edge_drawing()
 window.bottom_text()
 window.word_list([])
-
 word = vocab[0]
 window.show_image(images_files[word])
 spelling = top_spelling(word, 0)
-
 food = Food(generate_rand(), word[0])
-
 key_binds()
 
 
