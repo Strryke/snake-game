@@ -1,23 +1,18 @@
 from turtle import Screen, Turtle
 import turtle
 
-style = ("Verdana", 20)
-
+style = ("arial", 10)
 
 class Window:
     def __init__(self):
-        self.setup()
-        self.edge_drawing()
-
-    def setup(self):
         self.screen = Screen()
         self.screen.title("Snake Game")
         self.screen.bgcolor("black")
         self.screen.tracer(0)
         self.screen.setup(height=1.0, width=1.0)
         self.screen.screensize(1000, 1200)
-
-    # wall creation (chewon)
+        
+    # wall creation
     def edge_drawing(self):
         edge = Turtle("square")
         edge.up()
@@ -31,51 +26,40 @@ class Window:
             edge.forward(700)
             edge.left(90)
 
-    def start_screen(self):
+    def show_text(self,pos,message):
+        style = ("arial", 30)
         text = Turtle()
         text.hideturtle()
         text.up()
-        text.setpos(0, 0)
+        text.setpos(pos[0],pos[1])
         text.color("white")
-        text.write("")
-        turtle.bgpic("welcome.gif")
+        text.write(message,align="center", font=style)
+        return text
 
     def reset_screen(self):
         turtle.clearscreen()
         self.__init__()
-        self.word_list([])
-        self.bottom_text()
         self.screen.update()
 
+    def start_screen(self):
+        self.show_text((0, 0),"")
+        turtle.bgpic("welcome.gif")
+
+    def end_text(self, msg):
+        self.show_text((0, 200),f"{msg}\nPress 'enter' to restart the game")
+
     def word_list(self, ls):
-        text = Turtle()
-        text.up()
-        text.color("white")
-        text.setpos(500, 200)
-        text.write(
-            "Completed Words:", align="center", font=("Verdana", 25, "underline")
-        )
-        text.hideturtle()
+        self.show_text((500, 200),"Completed Words:")
 
         for i in range(len(ls)):
-            completedword = Turtle()
-            completedword.up()
-            completedword.color("white")
-            completedword.setpos(450, 170 - (i * 20))
-            completedword.hideturtle()
-            completedword.write(
-                f"{i+1}. {ls[i].capitalize()}", align="left", font=("Verdana", 20)
-            )
+            self.show_text((450, 170 - (i * 20)),f"{i+1}. {ls[i].capitalize()}")
+
+    def top_spelling(self, word, charindex):
+        return self.show_text((0, 380),word[0:charindex])
 
     def bottom_text(self):
-        # bottom pause text
-        text = Turtle()
-        text.up()
-        text.setpos(0, -395)
-        text.hideturtle()
-        text.color("white")
-        text.write("Press 'SPACE' to pause", align="center", font=style)
-
+        self.show_text((0, -395),"Press 'SPACE' to pause")
+###
     def show_image(self, image):
         self.image = Turtle()
         self.image.up()
