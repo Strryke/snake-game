@@ -1,14 +1,16 @@
 from turtle import Turtle
 import random
 
-style = ("arial", 30)
+style = ("verdana", 30)
 
 words = ["HARE", "TORTOISE", "RACE"]
 
 colors = ["#C70039", "#FFC300", "#8E44AD", "#A3E4D7", "#FF00FF", "#99FF33"]
 
+
 def random_color():
     return random.choice(colors)
+
 
 class Food(Turtle):
     def __init__(self, location, ch):

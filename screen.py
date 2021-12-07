@@ -1,7 +1,8 @@
 from turtle import Screen, Turtle
 import turtle
 
-style = ("arial", 10)
+style = ("verdana", 10)
+
 
 class Window:
     def __init__(self):
@@ -11,7 +12,7 @@ class Window:
         self.screen.tracer(0)
         self.screen.setup(height=1.0, width=1.0)
         self.screen.screensize(1000, 1200)
-        
+
     # wall creation
     def edge_drawing(self):
         edge = Turtle("square")
@@ -23,17 +24,17 @@ class Window:
         edge.color("green")
 
         for i in range(4):
-            edge.forward(700)
+            edge.forward(705)
             edge.left(90)
 
-    def show_text(self,pos,message):
-        style = ("arial", 30)
+    def show_text(self, pos, message):
+        style = ("verdana", 25)
         text = Turtle()
         text.hideturtle()
         text.up()
-        text.setpos(pos[0],pos[1])
+        text.setpos(pos[0], pos[1])
         text.color("white")
-        text.write(message,align="center", font=style)
+        text.write(message, align="center", font=style)
         return text
 
     def reset_screen(self):
@@ -42,24 +43,30 @@ class Window:
         self.screen.update()
 
     def start_screen(self):
-        self.show_text((0, 0),"")
+        self.show_text((0, 0), "")
         turtle.bgpic("welcome.gif")
 
     def end_text(self, msg):
-        self.show_text((0, 200),f"{msg}\nPress 'enter' to restart the game")
+        if msg == "win":
+            self.show_text(
+                (0, 200), "Congratulations! You won!\n\n Press 'Enter' to restart! :)"
+            )
+        if msg == "dead":
+            self.show_text((0, 200), ":( You died!\n\n Press 'Enter' to restart! :)")
 
     def word_list(self, ls):
-        self.show_text((500, 200),"Completed Words:")
+        self.show_text((500, 200), "Completed Words:")
 
         for i in range(len(ls)):
-            self.show_text((450, 170 - (i * 20)),f"{i+1}. {ls[i].capitalize()}")
+            self.show_text((450, 170 - (i * 25)), f"{i+1}. {ls[i].capitalize()}")
 
     def top_spelling(self, word, charindex):
-        return self.show_text((0, 380),word[0:charindex])
+        return self.show_text((0, 380), word[0:charindex])
 
     def bottom_text(self):
-        self.show_text((0, -395),"Press 'SPACE' to pause")
-###
+        self.show_text((0, -395), "Press 'SPACE' to pause")
+
+    ###
     def show_image(self, image):
         self.image = Turtle()
         self.image.up()
