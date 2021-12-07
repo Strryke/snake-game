@@ -32,10 +32,10 @@ class Snake:
 
         # wall collision
         if (
-            self.head.ycor() <= -330
-            or self.head.ycor() >= 330
-            or self.head.xcor() <= -340
-            or self.head.xcor() >= 340
+            self.head.ycor() <= -350
+            or self.head.ycor() >= 350
+            or self.head.xcor() <= -350
+            or self.head.xcor() >= 350
         ):
             return True
 

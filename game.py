@@ -13,14 +13,17 @@ def generate_rand(snake):
         return new_location
     return generate_rand(snake)
 
+
 def switch_gamestate():
     global gaming, playing
     gaming = "gaming"
-    playing =True
-    
+    playing = True
+
+
 def switch_playstate():
     global playing
     playing = not playing
+
 
 def key_binds(snake):
     window.screen.onkey(snake.up, "Up")
@@ -29,18 +32,19 @@ def key_binds(snake):
     window.screen.onkey(snake.right, "Right")
     window.screen.onkey(switch_playstate, "space")
 
+
 # game start
 def game_screen():
     window.reset_screen()
-    
+
     global playing
-    playing=True
+    playing = True
 
     images_files = {
-    "TORTOISE": "./tortoise.gif",
-    "HARE": "./hare.gif",
-    "RACE": "./race.gif",
-    "FINAL": "./final.gif",
+        "TORTOISE": "./tortoise.gif",
+        "HARE": "./hare.gif",
+        "RACE": "./race.gif",
+        "FINAL": "./final.gif",
     }
 
     snake = Snake()
@@ -49,7 +53,7 @@ def game_screen():
     window.bottom_text()
     window.word_list([])
 
-    wordsindex,charindex = 0,0
+    wordsindex, charindex = 0, 0
     word = words[wordsindex]
     completedls = []
 
@@ -57,49 +61,57 @@ def game_screen():
 
     window.show_image(images_files[word])
     food = Food(generate_rand(snake), word[charindex])
-    
-# Game loop
+
+    # Game loop
     while True:
         window.screen.listen()
         if playing == True:
             snake.move()
 
             if snake.collide():
-                playing=False
+                playing = False
                 return "dead"
 
             elif snake.head.distance(food) < 25:
                 snake.eat()  # creates new segments
 
-                if charindex == len(word) - 1: #finish spelling word
-                    completedls.append(word)   #add completed word to list
+                if charindex == len(word) - 1:  # finish spelling word
+                    completedls.append(word)  # add completed word to list
 
-                    if len(completedls) == len(words): #finish word list
-                        playing=False
+                    if len(completedls) == len(words):  # finish word list
+                        playing = False
+                        window.word_list(completedls)
+                        charindex += 1
+                        window.screen.update()
                         return "win"
-                    else: 
-                        window.word_list(completedls) # update word list
+                    else:
+                        window.word_list(completedls)  # update word list
                         wordsindex += 1
-                        word = words[wordsindex] #change word
+                        word = words[wordsindex]  # change word
                         window.del_image()
-                        window.show_image(images_files[word]) #show new image
+                        window.show_image(images_files[word])  # show new image
                         charindex = 0
-                        food.new_food(generate_rand(snake), word[charindex]) #generate next food
+                        food.new_food(
+                            generate_rand(snake), word[charindex]
+                        )  # generate next food
 
-                else: 
+                else:
                     charindex += 1
-                    food.new_food(generate_rand(snake), word[charindex])  # generate next food
+                    food.new_food(
+                        generate_rand(snake), word[charindex]
+                    )  # generate next food
 
                 spelling.clear()
                 spelling = window.top_spelling(
                     word, charindex
                 )  # see current word spelling at the top
         window.screen.update()
-        sleep(0.1)
+        sleep(0.05)
 
-if __name__=="__main__":
-    gaming="welcome"
-    playing=False
+
+if __name__ == "__main__":
+    gaming = "welcome"
+    playing = False
 
     window = Window()
     window.screen.onkey(switch_gamestate, "Return")
@@ -107,7 +119,7 @@ if __name__=="__main__":
     while True:
         window.screen.listen()
 
-        if gaming=="welcome":
+        if gaming == "welcome":
             window.start_screen()
 
         elif gaming == "dead" or gaming == "win":
@@ -115,4 +127,4 @@ if __name__=="__main__":
             window.screen.onkey(switch_gamestate, "Return")
 
         else:
-            gaming=game_screen()
+            gaming = game_screen()
