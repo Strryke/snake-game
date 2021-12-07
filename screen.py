@@ -44,7 +44,7 @@ class Window:
 
     def start_screen(self):
         self.show_text((0, 0), "")
-        turtle.bgpic("welcome.gif")
+        turtle.bgpic("./assets/welcome.gif")
 
     def end_text(self, msg):
         if msg == "win":

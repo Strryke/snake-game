@@ -41,10 +41,10 @@ def game_screen():
     playing = True
 
     images_files = {
-        "TORTOISE": "./tortoise.gif",
-        "HARE": "./hare.gif",
-        "RACE": "./race.gif",
-        "FINAL": "./final.gif",
+        "TORTOISE": "./assets/tortoise.gif",
+        "HARE": "./assets/hare.gif",
+        "RACE": "./assets/race.gif",
+        "FINAL": "./assets/final.gif",
     }
 
     snake = Snake()

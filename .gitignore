@@ -1,2 +1,4 @@
 /__pycache__
 /apple.gif
+.DS_Store
+.vscode/settings.json
