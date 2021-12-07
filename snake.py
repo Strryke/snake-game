@@ -30,7 +30,7 @@ class Snake:
             if self.head.distance(segment.pos()) < 10:
                 return True
 
-        # wall collision (chewon)
+        # wall collision
         if (
             self.head.ycor() <= -330
             or self.head.ycor() >= 330
