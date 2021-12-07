@@ -58,7 +58,7 @@ class Window:
         self.show_text((500, 200), "Completed Words:")
 
         for i in range(len(ls)):
-            self.show_text((450, 170 - (i * 25)), f"{i+1}. {ls[i].capitalize()}")
+            self.show_text((500, 170 - (i * 25)), f"{i+1}. {ls[i].capitalize()}")
 
     def top_spelling(self, word, charindex):
         return self.show_text((0, 380), word[0:charindex])
